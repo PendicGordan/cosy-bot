@@ -1,0 +1,23 @@
+[
+  {
+    "id": "1",
+    "email": "gordan.pendic5@gmail.com",
+    "password": "$2a$12$63IE7d4r3hDGsbo0NrbZ3./lRO7syTIM1Q5v6rDTTRA8.UFDO/SVq",
+    "verified": true,
+    "hash": "xv3z6ngtxry5PqPjuSZN"
+  },
+  {
+    "id": "2",
+    "email": "gordanpendic6@gmail.com",
+    "password": "$2a$12$63IE7d4r3hDGsbo0NrbZ3./lRO7syTIM1Q5v6rDTTRA8.UFDO/SVq",
+    "verified": true,
+    "hash": "xv3z6ngtxry5PqPhuFZN"
+  },
+  {
+    "id": "3",
+    "email": "vladimir.simovic5@gmail.com",
+    "password": "$2a$12$63IE7d4r3hDGsbo0NrbZ3./lRO7syTIM1Q5v6rDTTRA8.UFDO/SVq",
+    "verified": true,
+    "hash": "xv3z6ngtxry5PqPhuSON"
+  }
+]
