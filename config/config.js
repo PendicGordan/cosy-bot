@@ -26,7 +26,7 @@ CONFIG = {
 };
 
 CONFIG.app          = process.env.APP   || 'development';
-CONFIG.port         = process.env.API_PORT  || '3000';
+CONFIG.port         = process.env.API_PORT  || '5000';
 
 CONFIG.db_name      = process.env.DATABASE_NAME       || 'test';
 CONFIG.dialect      = process.env.DATABASE_DIALECT    || 'mysql';

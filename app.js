@@ -18,6 +18,7 @@ app.use(bodyParser.urlencoded({ limit: '50mb', extended: true, parameterLimit:50
 app.use(passport.initialize());
 
 // DATABASE
+/*
 const models = require("./models");
 models.sequelize.authenticate()
     .then(() => {
@@ -26,9 +27,9 @@ models.sequelize.authenticate()
     .catch(err => {
         console.error('Unable to connect to SQL database:', CONFIG.db_name, err);
     });
-
+*/
 if(CONFIG.app === 'dev'){
-    models.sequelize.sync(/*{force: true}*/); // creates table if it does not already exist
+    // models.sequelize.sync(/*{force: true}*/); // creates table if it does not already exist
 }
 app.use(cors());
 app.use('/v1', v1);
@@ -61,7 +62,7 @@ process.on('unhandledRejection', error => {
     console.error('Uncaught Error', pe(error));
 });
 
-const port = CONFIG.port || '3000';
+const port = CONFIG.port || '5000';
 
 app.listen(port, () => {
     console.log('Server running on', port);
