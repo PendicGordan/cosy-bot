@@ -27,7 +27,7 @@
     "passport": "^0.4.0",
     "passport-jwt": "^4.0.0",
     "randomstring": "^1.1.5",
-    "sequelize": "^4.38.0",
+    "sequelize": "^5.15.1",
     "sequelize-cli": "^3.2.0",
     "serve-favicon": "~2.4.5",
     "validator": "^10.8.0"
