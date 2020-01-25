@@ -6,11 +6,13 @@ const bcrypt         = require('bcrypt');
 const bcrypt_p       = require('bcrypt-promise');
 
 module.exports = (sequelize, DataTypes) => {
-    let Model = sequelize.define('Users', {
+    let Model = sequelize.define('Companies', {
         id          : { type: DataTypes.INTEGER.UNSIGNED,  primaryKey: true, autoIncrement: true,},
         email       : { type: DataTypes.STRING,        allowNull: false, unique: true   },
         password    : { type: DataTypes.STRING,        allowNull: false                 },
         verified    : { type: DataTypes.BOOLEAN,       defaultValue: false },
+        description : { type: DataTypes.STRING,        defaultValue: false },
+        address     : { type: DataTypes.STRING,        defaultValue: false },
         hash        : { type: DataTypes.STRING,        allowNull: true                 }
     },{
         timestamps : true
