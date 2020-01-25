@@ -39,13 +39,35 @@ const getCompanies = async function(req, res){
 };
 module.exports.getCompanies = getCompanies;
 
+const TOMMOROW = "tommorow";
+const TODAY = "today";
+
 const checkDateAvailability = async function(req, res){
 
 	const userDateReservation = req.body.date;
 	const companyIdReservation = req.body.companyId;
+	let momentDate;
+	try{
 
-	//moment(userDateReservation, "DD-MM-YYYY").format(DATE_FORMAT)
+		console.log(parsedDate);
+		moment(userDateReservation, "DD-MM-YYYY").add(15,'days');
+		if(userDateReservation.toLowerCase() === TOMMOROW || userDateReservation.toLowerCase().indexOf(TOMMOROW) !== -1) {
+			momentDate = moment(new Date(), "DD-MM-YYYY").add(1,'days');
+			// baza
+		} else if(userDateReservation.toLowerCase() === TODAY || userDateReservation.toLowerCase().indexOf(TODAY) !== -1) {
+			momentDate = moment(new Date(), "DD-MM-YYYY");
+			// baza
+		} else {
+			momentDate = moment(userDateReservation, "DD-MM-YYYY");
+			// baza
+		}
+	} catch(err) {
+		console.log('22222222222');
+		return ReE(res, { status: false, message: "Wrong date!" });
+	}
 
-	return ReS(res, companies);
+
+
+	return ReS(res, { status: true, message: "Alright, which time do you prefer?", reservations: [ "20:00", "21:00", "17:00" ] });
 };
 module.exports.checkDateAvailability = checkDateAvailability;
