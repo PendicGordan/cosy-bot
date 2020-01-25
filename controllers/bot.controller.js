@@ -44,17 +44,18 @@ const TODAY = "today";
 
 const checkDateAvailability = async function(req, res){
 
-	const userDateReservation = req.body.date;
+	if (!req.body.date) return ReE(res, { status: "false", message: "Missing date!" });
+	if (!req.body.companyId) return ReE(res, { status: "false", message: "Missing Company!" });
+
+	const userDateReservation = req.body.date.toLowerCase();
 	const companyIdReservation = req.body.companyId;
 	let momentDate;
 	try{
-
-		console.log(parsedDate);
 		moment(userDateReservation, "DD-MM-YYYY").add(15,'days');
-		if(userDateReservation.toLowerCase() === TOMMOROW || userDateReservation.toLowerCase().indexOf(TOMMOROW) !== -1) {
+		if(userDateReservation.indexOf(TOMMOROW) !== -1) {
 			momentDate = moment(new Date(), "DD-MM-YYYY").add(1,'days');
 			// baza
-		} else if(userDateReservation.toLowerCase() === TODAY || userDateReservation.toLowerCase().indexOf(TODAY) !== -1) {
+		} else if(userDateReservation.indexOf(TODAY) !== -1) {
 			momentDate = moment(new Date(), "DD-MM-YYYY");
 			// baza
 		} else {
@@ -62,12 +63,11 @@ const checkDateAvailability = async function(req, res){
 			// baza
 		}
 	} catch(err) {
-		console.log('22222222222');
-		return ReE(res, { status: false, message: "Wrong date!" });
+		return ReE(res, { status: "false", message: "Wrong date!" });
 	}
 
 
 
-	return ReS(res, { status: true, message: "Alright, which time do you prefer?", reservations: [ "20:00", "21:00", "17:00" ] });
+	return ReS(res, { status: "true", message: "Alright, which time do you prefer?", reservations: [ "20:00", "21:00", "17:00" ] });
 };
 module.exports.checkDateAvailability = checkDateAvailability;
