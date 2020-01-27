@@ -4,6 +4,7 @@ module.exports = function (router) {
     router.get('/companies',              BotController.getCompanies);
     router.post('/company/checkDate',       BotController.checkDateAvailability);
     router.post('/company/checkTime',       BotController.checkTimeAvailability);
+    router.post('/company/checkPersons',       BotController.checkTimeAvailability);
     router.post('/company/select',       BotController.selectCompany);
     return router;
 };

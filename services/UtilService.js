@@ -69,3 +69,7 @@ module.exports.shuffle = function (a) {
 	}
 	return a;
 };
+
+module.exports.isInt = function(n) {
+    return Number(n) === n && n % 1 === 0;
+};

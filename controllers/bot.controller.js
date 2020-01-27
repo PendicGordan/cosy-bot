@@ -1,5 +1,5 @@
 const {Users}                       = require('../models');
-const {ReE, ReS, to, shuffle }       = require('../services/UtilService');
+const {ReE, ReS, to, shuffle, isInt }       = require('../services/UtilService');
 const bcrypt                        = require('bcryptjs');
 const validator                     = require('validator');
 const randomstring                  = require('randomstring');
@@ -134,3 +134,17 @@ const selectCompany = async function(req, res){
 	return ReE(res, { status: "false", message: "Company not found!" });
 };
 module.exports.selectCompany = selectCompany;
+
+const sendAmountOfPersons = async function(req, res){
+
+	if (!req.body.numberOfPersons) return ReE(res, { status: "false", message: "Missing number of people!" });
+
+	const numberOfPersons = req.body.numberOfPersons.toLowerCase();
+	if(!isInt(numberOfPersons)) {
+		return ReE(res, { status: "false", message: "Number of persons not parseable!" });
+	}
+
+
+	return ReS(res, { status: "true", message: "Success, you have registered a reservation for " + numberOfPersons + "!"});
+};
+module.exports.sendAmountOfPersons = sendAmountOfPersons;
