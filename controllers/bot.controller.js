@@ -138,11 +138,13 @@ module.exports.selectCompany = selectCompany;
 
 const sendAmountOfPersons = async function(req, res){
 
-	if (!req.body.numberOfPersons) return ReE(res, { status: "false", message: "Missing number of people!" });
+	console.log(req.body);
+	if (!req.body.numberOfPersons) return ReS(res, { status: "false", message: "Missing number of people!" });
+	console.log("1");
 
 	const numberOfPersons = req.body.numberOfPersons.toLowerCase();
 	if(!isInt(numberOfPersons)) {
-		return ReE(res, { status: "false", message: "Number of persons not parseable!" });
+		return ReS(res, { status: "false", message: "Number of persons not parseable!" });
 	}
 
 

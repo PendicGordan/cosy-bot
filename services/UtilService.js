@@ -71,7 +71,7 @@ module.exports.shuffle = function (a) {
 };
 
 module.exports.isInt = function(n) {
-    return Number(n) === n && n % 1 === 0;
+    return !isNaN(n) && n % 1 === 0;
 };
 
 module.exports.validateEmail = function(email) {
