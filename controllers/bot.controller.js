@@ -72,6 +72,39 @@ const checkDateAvailability = async function(req, res){
 };
 module.exports.checkDateAvailability = checkDateAvailability;
 
+const checkTime = async function(req, res){
+
+	if (!req.body.date) return ReE(res, { status: "false", message: "Missing date!" });
+	if (!req.body.time) return ReE(res, { status: "false", message: "Missing time!" });
+	if (!req.body.companyId) return ReE(res, { status: "false", message: "Missing Company!" });
+
+	const userTimeReservation = req.body.time.toLowerCase();
+	const userDateReservation = req.body.date.toLowerCase();
+	const companyIdReservation = req.body.companyId;
+
+	let momentDate;
+	if(userTimeReservation.indexOf(TOMMOROW) !== -1) {
+		momentDate = moment(new Date(), "DD-MM-YYYY " + userTimeReservation).add(1,'days');
+	} else if(userTimeReservation.indexOf(TODAY) !== -1) {
+		momentDate = moment(new Date(), "DD-MM-YYYY " + userTimeReservation);
+		if(momentDate.isBefore()) {
+			return ReE(res, { status: "false", message: "Time in the past!" });
+		}
+	} else {
+		momentDate = moment(userDateReservation + " " + userTimeReservation, "DD-MM-YYYY HH:mm");
+		console.log(momentDate);
+		if(!momentDate.isValid()) {
+			return ReE(res, { status: "false", message: "Wrong time!" });
+		}
+	}
+
+	console.log(typeof companyIdReservation);
+	let foundCompany = companies.filter(company => String(company.id) === companyIdReservation);
+
+	return ReS(res, { status: "true", message: "Success, your reservation has been made at " + momentDate + " in the " + foundCompany.name });
+};
+module.exports.checkTime = checkTime;
+
 const selectCompany = async function(req, res){
 
 	if (!req.body.company) return ReE(res, { status: "false", message: "Missing Company!" });
