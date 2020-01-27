@@ -1,5 +1,5 @@
 const {Users}                       = require('../models');
-const {ReE, ReS, to, getAge }       = require('../services/UtilService');
+const {ReE, ReS, to, shuffle }       = require('../services/UtilService');
 const bcrypt                        = require('bcryptjs');
 const validator                     = require('validator');
 const randomstring                  = require('randomstring');
@@ -10,6 +10,9 @@ const hello = async function(req, res){
     return ReS(res, {hehe:'hehe'});
 };
 module.exports.hello = hello;
+
+const TOMMOROW = "tomorrow";
+const TODAY = "today";
 
 const companies = [
     {
@@ -35,14 +38,12 @@ const companies = [
     }
 ];
 
-const getCompanies = async function(req, res){
 
-	return ReS(res, companies);
+const getCompanies = async function(req, res){
+	return ReS(res, shuffle(companies));
 };
 module.exports.getCompanies = getCompanies;
 
-const TOMMOROW = "tommorow";
-const TODAY = "today";
 
 const checkDateAvailability = async function(req, res){
 
@@ -51,6 +52,7 @@ const checkDateAvailability = async function(req, res){
 
 	const userDateReservation = req.body.date.toLowerCase();
 	const companyIdReservation = req.body.companyId;
+
 	let momentDate;
 	if(userDateReservation.indexOf(TOMMOROW) !== -1) {
 		momentDate = moment(new Date(), "DD-MM-YYYY").add(1,'days');
@@ -58,10 +60,10 @@ const checkDateAvailability = async function(req, res){
 		momentDate = moment(new Date(), "DD-MM-YYYY");
 	} else {
 		momentDate = moment(userDateReservation, "DD-MM-YYYY");
+		if(!momentDate.isValid()){
+			return ReE(res, { status: "false", message: "Wrong date!" });
+		}
 	}
-
-	if(momentDate.toString().indexOf("moment.invalid") === -1)
-		return ReE(res, { status: "false", message: "Wrong date!" });
 
 	return ReS(res, { status: "true", message: "Alright, which time do you prefer?", reservations: [ "20:00", "21:00", "17:00" ] });
 };
@@ -72,18 +74,24 @@ const selectCompany = async function(req, res){
 	if (!req.body.company) return ReE(res, { status: "false", message: "Missing Company!" });
 	let company = req.body.company;
 
-	companies.forEach(eachCompany => {
-	    if(eachCompany.id === company) {
-            return ReS(res, { status: "true", message: "Okay" });
-        }
-    });
+	console.log("COMPANY: " + company, req.body.exclude);
 
-    companies.forEach(eachCompany => {
-        if(eachCompany.name.toLowerCase().indexOf(company.toLowerCase()) !== -1) {
-            return ReS(res, { status: "maybe", message: "Did you mean " + eachCompany.name + "?", company: eachCompany });
-        }
-    });
 
+	for (let i = 0; i < companies.length; i++) {
+	    if(String(companies[i].id) === company) {
+	    	  console.log("selectCompany true");
+	    	  return ReS(res, { status: "true", message: "Okay" });
+	    }
+	}
+
+  for (let i = 0; i < companies.length; i++){
+			if(companies[i].name.toLowerCase().indexOf(company.toLowerCase()) !== -1 && req.body.exclude !== String(companies[i].id)) {
+				  console.log("selectCompany maybe");
+				  return ReS(res, {status: "maybe", message: "Did you mean " + companies[i].name + "?", company: companies[i]});
+			}
+	}
+
+	console.log("selectCompany false");
 	return ReE(res, { status: "false", message: "Company not found!" });
 };
 module.exports.selectCompany = selectCompany;

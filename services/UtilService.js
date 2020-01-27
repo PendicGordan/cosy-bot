@@ -58,3 +58,14 @@ module.exports.getAge = function(dateString) {
     if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) { age--; }
     return age;
 };
+
+module.exports.shuffle = function (a) {
+	let j, x, i;
+	for (i = a.length - 1; i > 0; i--) {
+		j = Math.floor(Math.random() * (i + 1));
+		x = a[i];
+		a[i] = a[j];
+		a[j] = x;
+	}
+	return a;
+};
