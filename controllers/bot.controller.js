@@ -50,26 +50,16 @@ const checkDateAvailability = async function(req, res){
 	const userDateReservation = req.body.date.toLowerCase();
 	const companyIdReservation = req.body.companyId;
 	let momentDate;
-	try{
-		moment(userDateReservation, "DD-MM-YYYY").add(15,'days');
-		if(userDateReservation.indexOf(TOMMOROW) !== -1) {
-			momentDate = moment(new Date(), "DD-MM-YYYY").add(1,'days');
-			// baza
-		} else if(userDateReservation.indexOf(TODAY) !== -1) {
-			momentDate = moment(new Date(), "DD-MM-YYYY");
-			// baza
-		} else {
-			momentDate = moment(userDateReservation, "DD-MM-YYYY");
-			// baza
-		}
-		if(momentDate.toString().indexOf("moment.invalid") === -1) console.log("aaaaaaaaaaaaaaa");
-	} catch(err) {
-
-		return ReE(res, { status: "false", message: "Wrong date!" });
+	if(userDateReservation.indexOf(TOMMOROW) !== -1) {
+		momentDate = moment(new Date(), "DD-MM-YYYY").add(1,'days');
+	} else if(userDateReservation.indexOf(TODAY) !== -1) {
+		momentDate = moment(new Date(), "DD-MM-YYYY");
+	} else {
+		momentDate = moment(userDateReservation, "DD-MM-YYYY");
 	}
 
-	console.log("MOMENT DATE: ", momentDate);
-
+	if(momentDate.toString().indexOf("moment.invalid") === -1)
+		return ReE(res, { status: "false", message: "Wrong date!" });
 
 	return ReS(res, { status: "true", message: "Alright, which time do you prefer?", reservations: [ "20:00", "21:00", "17:00" ] });
 };
