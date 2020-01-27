@@ -87,6 +87,8 @@ const checkTimeAvailability = async function(req, res){
 		momentDate = moment(new Date(), "DD-MM-YYYY " + userTimeReservation).add(1,'days');
 	} else if(userTimeReservation.indexOf(TODAY) !== -1) {
 		momentDate = moment(new Date(), "DD-MM-YYYY " + userTimeReservation);
+		momentDate.hour(parseInt(userTimeReservation.split(":")[0]));
+		momentDate.minutes(parseInt(userTimeReservation.split(":")[1]));
 		if(momentDate.isBefore()) {
 			return ReE(res, { status: "false", message: "Time in the past!" });
 		}
