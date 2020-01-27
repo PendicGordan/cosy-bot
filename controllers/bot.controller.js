@@ -70,8 +70,6 @@ const selectCompany = async function(req, res){
 	if (!req.body.company) return ReE(res, { status: "false", message: "Missing Company!" });
 	let company = req.body.company;
 
-	console.log(company);
-
 	return ReS(res, { status: "true", message: "Okay", company: 1 });
 };
 module.exports.selectCompany = selectCompany;
