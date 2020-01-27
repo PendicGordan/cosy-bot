@@ -66,6 +66,7 @@ const checkDateAvailability = async function(req, res){
 		return ReE(res, { status: "false", message: "Wrong date!" });
 	}
 
+	console.log("MOMENT DATE: ", momentDate);
 
 
 	return ReS(res, { status: "true", message: "Alright, which time do you prefer?", reservations: [ "20:00", "21:00", "17:00" ] });
