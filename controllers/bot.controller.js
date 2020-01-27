@@ -63,6 +63,9 @@ const checkDateAvailability = async function(req, res){
 		if(!momentDate.isValid()){
 			return ReE(res, { status: "false", message: "Wrong date!" });
 		}
+		if (momentDate.isBefore()) {
+            return ReE(res, { status: "false", message: "Date in the past!" });
+        }
 	}
 
 	return ReS(res, { status: "true", message: "Alright, which time do you prefer?", reservations: [ "20:00", "21:00", "17:00" ] });
@@ -80,6 +83,7 @@ const selectCompany = async function(req, res){
 	for (let i = 0; i < companies.length; i++) {
 	    if(String(companies[i].id) === company) {
 	    	  console.log("selectCompany true");
+
 	    	  return ReS(res, { status: "true", message: "Okay" });
 	    }
 	}
