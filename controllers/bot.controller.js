@@ -64,3 +64,14 @@ const checkDateAvailability = async function(req, res){
 	return ReS(res, { status: "true", message: "Alright, which time do you prefer?", reservations: [ "20:00", "21:00", "17:00" ] });
 };
 module.exports.checkDateAvailability = checkDateAvailability;
+
+const selectCompany = async function(req, res){
+
+	if (!req.body.company) return ReE(res, { status: "false", message: "Missing Company!" });
+	let company = req.body.company;
+
+	console.log(company);
+
+	return ReS(res, { status: "true", message: "Okay", company: 1 });
+};
+module.exports.selectCompany = selectCompany;
