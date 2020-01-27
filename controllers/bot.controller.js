@@ -62,7 +62,9 @@ const checkDateAvailability = async function(req, res){
 			momentDate = moment(userDateReservation, "DD-MM-YYYY");
 			// baza
 		}
+		if(momentDate.toString().indexOf("moment.invalid") === -1) console.log("aaaaaaaaaaaaaaa");
 	} catch(err) {
+
 		return ReE(res, { status: "false", message: "Wrong date!" });
 	}
 
