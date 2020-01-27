@@ -1,9 +1,9 @@
-const {Users}                       = require('../models');
-const {ReE, ReS, to, shuffle, isInt }       = require('../services/UtilService');
-const bcrypt                        = require('bcryptjs');
-const validator                     = require('validator');
-const randomstring                  = require('randomstring');
-const moment                        = require('moment');
+const {Users}                       				 = require('../models');
+const {ReE, ReS, to, shuffle, isInt, validateEmail } = require('../services/UtilService');
+const bcrypt                        			     = require('bcryptjs');
+const validator                     				 = require('validator');
+const randomstring                  				 = require('randomstring');
+const moment                        				 = require('moment');
 
 const hello = async function(req, res){
     console.log("Hello Endpoint", req.body);
@@ -149,3 +149,15 @@ const sendAmountOfPersons = async function(req, res){
 	return ReS(res, { status: "true", message: "Success, you have registered a reservation for " + numberOfPersons + "!"});
 };
 module.exports.sendAmountOfPersons = sendAmountOfPersons;
+
+const checkEmail = async function(req, res){
+
+	if (!req.body.email) return ReE(res, { status: "false", message: "Missing the email!" });
+
+	const email = req.body.email.toLowerCase();
+	if(!validateEmail(email)) {
+		return ReE(res, { status: "false", message: "Email not valid!" });
+	}
+	return ReS(res, { status: "true", message: "Email"});
+};
+module.exports.checkEmail = checkEmail;
