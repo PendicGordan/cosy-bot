@@ -72,7 +72,7 @@ const checkDateAvailability = async function(req, res){
 };
 module.exports.checkDateAvailability = checkDateAvailability;
 
-const checkTime = async function(req, res){
+const checkTimeAvailability = async function(req, res){
 
 	if (!req.body.date) return ReE(res, { status: "false", message: "Missing date!" });
 	if (!req.body.time) return ReE(res, { status: "false", message: "Missing time!" });
@@ -103,7 +103,7 @@ const checkTime = async function(req, res){
 
 	return ReS(res, { status: "true", message: "Success, your reservation has been made at " + momentDate + " in the " + foundCompany.name });
 };
-module.exports.checkTime = checkTime;
+module.exports.checkTimeAvailability = checkTimeAvailability;
 
 const selectCompany = async function(req, res){
 
