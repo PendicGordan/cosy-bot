@@ -11,30 +11,32 @@ const hello = async function(req, res){
 };
 module.exports.hello = hello;
 
+const companies = [
+    {
+        id: 1,
+        name: 'MOZAIK Cafe&Restaurant',
+        address: 'Stuwerstrasse 20/18, 1020 Wien',
+        image: 'https://cdn.werbifi.com/3/image6.jpg',
+        rating: 5,
+    },
+    {
+        id: 2,
+        name: 'Schweizerhaus',
+        address: 'Prater 116, 1020 Wien',
+        image: 'https://www.vienna.at/2019/10/Schweizerhaus09-4-3-590945709-945x709.jpg',
+        rating: 4,
+    },
+    {
+        id: 3,
+        name: 'Gasthaus Möslinger',
+        address: 'Stuwerstrasse 13, 1020 Wien',
+        image: 'https://www.delinski.at/_media/images/_at/restaurants/detail/gasthaus-moeslinger-2.cache1410184679.jpg',
+        rating: 4,
+    }
+];
+
 const getCompanies = async function(req, res){
-	const companies = [
-		{
-			id: 1,
-			name: 'MOZAIK Cafe&Restaurant',
-			address: 'Stuwerstrasse 20/18, 1020 Wien',
-			image: 'https://cdn.werbifi.com/3/image6.jpg',
-			rating: 5,
-		},
-		{
-			id: 2,
-			name: 'Schweizerhaus',
-			address: 'Prater 116, 1020 Wien',
-			image: 'https://www.vienna.at/2019/10/Schweizerhaus09-4-3-590945709-945x709.jpg',
-			rating: 4,
-		},
-		{
-			id: 3,
-			name: 'Gasthaus Möslinger',
-			address: 'Stuwerstrasse 13, 1020 Wien',
-			image: 'https://www.delinski.at/_media/images/_at/restaurants/detail/gasthaus-moeslinger-2.cache1410184679.jpg',
-			rating: 4,
-		}
-	];
+
 	return ReS(res, companies);
 };
 module.exports.getCompanies = getCompanies;
@@ -80,8 +82,18 @@ const selectCompany = async function(req, res){
 	if (!req.body.company) return ReE(res, { status: "false", message: "Missing Company!" });
 	let company = req.body.company;
 
-	console.log(company);
+	companies.forEach(eachCompany => {
+	    if(eachCompany.id === company) {
+            return ReS(res, { status: "true", message: "Okay" });
+        }
+    });
 
-	return ReS(res, { status: "true", message: "Okay", company: 1 });
+    companies.forEach(eachCompany => {
+        if(eachCompany.name.toLowerCase().indexOf(company.toLowerCase()) !== -1) {
+            return ReS(res, { status: "maybe", message: "Did you mean " + eachCompany.name + "?", company: eachCompany });
+        }
+    });
+
+	return ReE(res, { status: "false", message: "Company not found!" });
 };
 module.exports.selectCompany = selectCompany;
