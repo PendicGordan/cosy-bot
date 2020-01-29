@@ -1,15 +1,5 @@
-const {Users}                       				 = require('../models');
-const {ReE, ReS, to, shuffle, isInt, validateEmail } = require('../services/UtilService');
-const bcrypt                        			     = require('bcryptjs');
-const validator                     				 = require('validator');
-const randomstring                  				 = require('randomstring');
+const {ReS, shuffle, isInt, validateEmail } = require('../services/UtilService');
 const moment                        				 = require('moment');
-
-const hello = async function(req, res){
-    console.log("Hello Endpoint", req.body);
-    return ReS(res, {hehe:'hehe'});
-};
-module.exports.hello = hello;
 
 const TOMMOROW = "tomorrow";
 const TODAY = "today";
@@ -47,8 +37,8 @@ module.exports.getCompanies = getCompanies;
 
 const checkDateAvailability = async function(req, res){
 
-	if (!req.body.date) return ReE(res, { status: "false", message: "Missing date!" });
-	if (!req.body.companyId) return ReE(res, { status: "false", message: "Missing Company!" });
+	if (!req.body.date) return ReS(res, { status: "false", message: "Missing date!" });
+	if (!req.body.companyId) return ReS(res, { status: "false", message: "Missing Company!" });
 
 	const userDateReservation = req.body.date.toLowerCase();
 	const companyIdReservation = req.body.companyId;
@@ -61,11 +51,11 @@ const checkDateAvailability = async function(req, res){
 	} else {
 		momentDate = moment(userDateReservation, "DD-MM-YYYY");
 		if(!momentDate.isValid()){
-			return ReE(res, { status: "false", message: "Wrong date!" });
+			return ReS(res, { status: "false", message: "Wrong date!" });
 		}
 		if (momentDate.isBefore()) {
-            return ReE(res, { status: "false", message: "Date in the past!" });
-        }
+			return ReS(res, { status: "false", message: "Date in the past!" });
+		}
 	}
 
 	return ReS(res, { status: "true", message: "Alright, which time do you prefer?", reservations: [ "20:00", "21:00", "17:00" ] });
@@ -76,9 +66,9 @@ const checkTimeAvailability = async function(req, res){
 
 	console.log(req.body);
 
-	if (!req.body.date) return ReE(res, { status: "false", message: "Missing date!" });
-	if (!req.body.time) return ReE(res, { status: "false", message: "Missing time!" });
-	if (!req.body.companyId) return ReE(res, { status: "false", message: "Missing Company!" });
+	if (!req.body.date) return ReS(res, { status: "false", message: "Missing date!" });
+	if (!req.body.time) return ReS(res, { status: "false", message: "Missing time!" });
+	if (!req.body.companyId) return ReS(res, { status: "false", message: "Missing Company!" });
 
 	const userTimeReservation = req.body.time.toLowerCase();
 	const userDateReservation = req.body.date.toLowerCase();
@@ -93,13 +83,13 @@ const checkTimeAvailability = async function(req, res){
 		momentDate = momentDate.hour(parseInt(userTimeReservation.split(":")[0]));
 		momentDate = momentDate.minutes(parseInt(userTimeReservation.split(":")[1]));
 		if(momentDate.isBefore()) {
-			return ReE(res, { status: "false", message: "Time in the past!" });
+			return ReS(res, { status: "false", message: "Time in the past!" });
 		}
 	} else {
 		momentDate = moment(userDateReservation + " " + userTimeReservation, "DD-MM-YYYY HH:mm");
 		console.log(momentDate);
 		if(!momentDate.isValid()) {
-			return ReE(res, { status: "false", message: "Wrong time!" });
+			return ReS(res, { status: "false", message: "Wrong time!" });
 		}
 	}
 	let foundCompany = companies.filter(company => String(company.id) === companyIdReservation)[0];
@@ -114,7 +104,7 @@ module.exports.checkTimeAvailability = checkTimeAvailability;
 
 const selectCompany = async function(req, res){
 
-	if (!req.body.company) return ReE(res, { status: "false", message: "Missing Company!" });
+	if (!req.body.company) return ReS(res, { status: "false", message: "Missing Company!" });
 	let company = req.body.company;
 
 	for (let i = 0; i < companies.length; i++) {
@@ -153,13 +143,11 @@ const sendAmountOfPersons = async function(req, res){
 module.exports.sendAmountOfPersons = sendAmountOfPersons;
 
 const checkEmail = async function(req, res){
-
-	if (!req.body.email) return ReE(res, { status: "false", message: "Missing the email!" });
-
+	if (!req.body.email) return ReS(res, { status: "false", message: "Missing the email!" });
 	const email = req.body.email.toLowerCase();
 	if(!validateEmail(email)) {
-		return ReE(res, { status: "false", message: "Email not valid!" });
+		return ReS(res, { status: "false", message: "Email not valid!" });
 	}
-	return ReS(res, { status: "true", message: "Email"});
+	return ReS(res, { status: "true", message: "Email valid"});
 };
 module.exports.checkEmail = checkEmail;
