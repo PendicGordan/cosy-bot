@@ -64,8 +64,6 @@ module.exports.checkDateAvailability = checkDateAvailability;
 
 const checkTimeAvailability = async function(req, res){
 
-	console.log(req.body);
-
 	if (!req.body.date) return ReS(res, { status: "false", message: "Missing date!" });
 	if (!req.body.time) return ReS(res, { status: "false", message: "Missing time!" });
 	if (!req.body.companyId) return ReS(res, { status: "false", message: "Missing Company!" });
@@ -87,14 +85,12 @@ const checkTimeAvailability = async function(req, res){
 		}
 	} else {
 		momentDate = moment(userDateReservation + " " + userTimeReservation, "DD-MM-YYYY HH:mm");
-		console.log(momentDate);
+
 		if(!momentDate.isValid()) {
 			return ReS(res, { status: "false", message: "Wrong time!" });
 		}
 	}
 	let foundCompany = companies.filter(company => String(company.id) === companyIdReservation)[0];
-
-	console.log(typeof companyIdReservation, companyIdReservation, foundCompany);
 
 	return ReS(res, { status: "true", message: "Success, your reservation has been made at " + momentDate.format('DD.MM.YYYY at HH:mm') + " in the " + foundCompany.name });
 };
@@ -109,28 +105,23 @@ const selectCompany = async function(req, res){
 
 	for (let i = 0; i < companies.length; i++) {
 	    if(String(companies[i].id) === company) {
-	    	  console.log("selectCompany true");
 	    	  return ReS(res, { status: "true", message: "Okay" });
 	    }
 	}
 
   for (let i = 0; i < companies.length; i++){
 			if(companies[i].name.toLowerCase().indexOf(company.toLowerCase()) !== -1 && req.body.exclude !== String(companies[i].id)) {
-				  console.log("selectCompany maybe");
 				  return ReS(res, {status: "maybe", message: "Did you mean " + companies[i].name + "?", company: companies[i]});
 			}
 	}
 
-	console.log("selectCompany false");
 	return ReS(res, { status: "false", message: "Company not found!" });
 };
 module.exports.selectCompany = selectCompany;
 
 const sendAmountOfPersons = async function(req, res){
 
-	console.log(req.body);
 	if (!req.body.numberOfPersons) return ReS(res, { status: "false", message: "Missing number of people!" });
-	console.log("1");
 
 	const numberOfPersons = req.body.numberOfPersons.toLowerCase();
 	if(!isInt(numberOfPersons)) {
