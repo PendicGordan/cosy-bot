@@ -20,7 +20,7 @@
     "morgan": "~1.9.0",
     "mysql2": "^1.5.3",
     "mysqldump": "^2.2.1",
-    "nodemailer": "^4.6.8",
+    "nodemailer": "^6.4.16",
     "nodemailer-sendgrid-transport": "^0.2.0",
     "npm": "^6.4.1",
     "parse-error": "^0.2.0",
